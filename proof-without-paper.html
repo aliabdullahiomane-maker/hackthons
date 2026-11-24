@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proof Without Paper</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231f5c4d'/%3E%3Cpath d='M9 6h10l5 5v15H9z' fill='none' stroke='%23f6f3ec' stroke-width='2'/%3E%3Cpath d='M12 18l3 3 6-7' fill='none' stroke='%23f6f3ec' stroke-width='2'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#f6f3ec;--surface:#fffdf8;--ink:#1c2321;--muted:#55605b;--line:#d8d2c4;--accent:#1f5c4d;--on-accent:#ffffff;--warn:#9a4a14;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a18;--surface:#1b2321;--ink:#ece8de;--muted:#a2aca6;--line:#2f3a36;--accent:#6fc2a8;--on-accent:#10201b;--warn:#e0a070;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141a18;--surface:#1b2321;--ink:#ece8de;--muted:#a2aca6;--line:#2f3a36;--accent:#6fc2a8;--on-accent:#10201b;--warn:#e0a070;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif}
+h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.2;margin:0 0 .6em;font-weight:700}
+h1{font-size:clamp(2rem,5vw,3.1rem);max-width:18em}
+h2{font-size:1.7rem}h3{font-size:1.2rem}
+p{margin:0 0 1em}
+a{color:var(--accent)}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;justify-content:space-between;padding-top:16px;padding-bottom:16px}
+.brand{font-family:Georgia,serif;font-weight:700;font-size:1.15rem;color:var(--ink);text-decoration:none}
+nav{display:flex;gap:20px;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;font-size:.95rem}
+nav a:hover,nav a[aria-current="page"]{color:var(--ink);text-decoration:underline}
+.hero{padding:56px 0 40px;display:grid;gap:40px;grid-template-columns:1.2fr 1fr;align-items:center}
+.lede{font-size:1.15rem;color:var(--muted);max-width:34em}
+.btn{font:inherit;font-weight:600;background:var(--accent);color:var(--on-accent);border:2px solid var(--accent);border-radius:2px;padding:12px 22px;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+.pair{display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);padding:18px}
+.card.lost{border:2px dashed var(--muted);color:var(--muted)}
+.card .tag{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block;margin-bottom:6px}
+.card.built{border-left:5px solid var(--accent)}
+.card p{margin:0 0 .4em}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:8px 0 48px;margin:0;list-style:none}
+.steps li{border-top:3px solid var(--ink);padding-top:12px}
+.steps b{display:block;font-family:Georgia,serif;font-size:1.1rem}
+.panel{background:var(--surface);border:1px solid var(--line);padding:28px;margin-bottom:48px}
+.grid2{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+label{display:block;font-weight:600;font-size:.95rem;margin-bottom:4px}
+input[type=text],input[type=number],select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--muted);border-radius:2px;padding:10px}
+textarea{min-height:300px;line-height:1.5}
+.hint{color:var(--muted);font-size:.9rem;margin:0 0 12px}
+.task{display:grid;grid-template-columns:1.3fr 1fr;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.task label{margin:0;font-weight:500}
+.checks label{display:flex;gap:10px;align-items:flex-start;font-weight:400;margin:0 0 8px}
+.checks input{margin-top:6px}
+fieldset{border:0;padding:0;margin:24px 0 0}
+legend{font-family:Georgia,serif;font-weight:700;font-size:1.2rem;padding:0;margin-bottom:6px}
+table{width:100%;border-collapse:collapse;margin:12px 0 20px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:.85rem;color:var(--muted)}
+.scroll{overflow-x:auto}
+.seg{display:inline-block;width:18px;height:10px;background:var(--line);margin-right:3px}
+.seg.on{background:var(--accent)}
+.plan{padding-left:0;list-style:none;margin:0 0 24px}
+.plan li{border-left:4px solid var(--line);padding:6px 0 6px 14px;margin-bottom:14px}
+.plan li.start{border-left-color:var(--accent)}
+.plan .k{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.plan li.start .k{color:var(--accent);font-weight:700}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.note{border-left:4px solid var(--warn);padding:6px 14px;margin:16px 0;color:var(--muted)}
+.view[hidden]{display:none}
+.doc{max-width:720px;padding:40px 0 64px}
+.doc h2{margin-top:1.6em;font-size:1.3rem}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;padding:24px 0}
+@media (max-width:760px){.hero,.steps,.grid2,.task{grid-template-columns:1fr}.hero{padding-top:32px}}
+@media print{.top,footer,.hero,.steps,#build,.noprint{display:none!important}.panel{border:0;padding:0}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="brand" href="#home">Proof Without Paper</a>
+<nav aria-label="Main"><a href="#home" id="n-home">Build a portfolio</a><a href="#privacy" id="n-privacy">Privacy</a><a href="#terms" id="n-terms">Terms</a></nav>
+</div></header>
+
+<main>
+<div class="view" id="view-home">
+<div class="wrap">
+<section class="hero">
+<div>
+<h1>Lost your certificates? Build proof of your skills without them.</h1>
+<p class="lede">Answer questions about the work you have actually done. You get a printable competency portfolio and a step-by-step plan for recovering evidence of your qualifications. It runs in your browser, and what you type is not sent anywhere.</p>
+<button class="btn" type="button" id="go">Start your portfolio</button>
+</div>
+<div class="pair" aria-label="Illustration of the idea">
+<div class="card lost"><span class="tag">Example: what is missing</span><p>University diploma</p><p>Professional registration card</p></div>
+<div class="card built"><span class="tag">Example: what you can build</span><p><b>Competency portfolio</b></p><p>Tasks you perform, how often, and who can confirm them.</p></div>
+</div>
+</section>
+<ol class="steps">
+<li><b>1. Describe your work</b>Your profession, years of experience and last workplace.</li>
+<li><b>2. Rate what you have done</b>Honest answers for six tasks core to your profession.</li>
+<li><b>3. Get your portfolio and plan</b>A summary, an evidence checklist and a draft letter to request a reference.</li>
+</ol>
+
+<section class="panel" id="build">
+<h2>Build your portfolio</h2>
+<form id="f" autocomplete="off">
+<div class="grid2">
+<div><label for="pname">Your full name</label><input type="text" id="pname" required></div>
+<div><label for="profession">Profession</label><select id="profession"></select></div>
+<div><label for="years">Years of experience</label><input type="number" id="years" min="0" max="60" required></div>
+<div><label for="workplace">Last workplace</label><input type="text" id="workplace" placeholder="Hospital, school, company or site" required></div>
+<div><label for="country">Country where you worked</label><input type="text" id="country" required></div>
+</div>
+<fieldset>
+<legend>What have you done in practice?</legend>
+<p class="hint">Be accurate. Only claim what a former colleague could confirm.</p>
+<div id="tasks"></div>
+</fieldset>
+<fieldset class="checks">
+<legend>What can you still get hold of?</legend>
+<p class="hint">Tick everything that applies. Your plan starts with these.</p>
+<label><input type="checkbox" id="c-employer"> I can contact a former employer or supervisor</label>
+<label><input type="checkbox" id="c-colleagues"> I can reach former colleagues</label>
+<label><input type="checkbox" id="c-school"> I can contact my school or university</label>
+<label><input type="checkbox" id="c-files"> I have some photos or files of my documents or work</label>
+<label><input type="checkbox" id="c-id"> I have an ID or refugee registration document</label>
+</fieldset>
+<div class="row"><button class="btn" type="submit">Build my portfolio</button></div>
+</form>
+</section>
+
+<section class="panel" id="out" hidden></section>
+</div>
+</div>
+
+<div class="view" id="view-privacy" hidden><div class="wrap doc">
+<h1>Privacy policy</h1>
+<p>Effective November 24, 2026.</p>
+<h2>What this site does with your information</h2>
+<p>Everything you type into the portfolio form is processed in your browser. The site does not send it to a server, store it in a database, or share it with anyone. When you close or refresh the page, it is gone.</p>
+<h2>What we do not use</h2>
+<p>This site does not use cookies, advertising trackers or analytics. It does not ask you to create an account.</p>
+<h2>What the hosting provider may record</h2>
+<p>Like any website, the company that hosts it may keep standard technical logs, such as your IP address and the time of your visit. This is outside the control of the site and is covered by the host’s own policy.</p>
+<h2>Printing and copying</h2>
+<p>If you print the portfolio, save it as a PDF or copy the letter, that copy is stored wherever you put it. Keep it somewhere safe, because it may include your name, workplace and country.</p>
+<h2>Children</h2>
+<p>This site is intended for adults seeking recognition of their professional skills.</p>
+<h2>Changes</h2>
+<p>If this policy changes, the effective date above will change with it.</p>
+</div></div>
+
+<div class="view" id="view-terms" hidden><div class="wrap doc">
+<h1>Terms and conditions</h1>
+<p>Effective November 24, 2026.</p>
+<h2>What this tool is</h2>
+<p>Proof Without Paper helps you organize a description of your professional experience and a list of ways to recover evidence of it. It is a self-assessment tool. It does not verify your qualifications.</p>
+<h2>Not legal or official advice</h2>
+<p>The portfolio and plan are general guidance. They are not legal advice, and they are not an official credential assessment. Rules for recognizing qualifications differ by country, profession and authority. Always confirm requirements with the authority that will assess you before paying any fee.</p>
+<h2>No guarantee</h2>
+<p>Using this tool does not guarantee that any authority, employer or institution will recognize your skills or qualifications.</p>
+<h2>Your responsibility</h2>
+<p>You are responsible for the accuracy of what you enter. Only present experience you have genuinely had. Submitting false claims to an authority or employer can have serious consequences.</p>
+<h2>Availability</h2>
+<p>The site is provided as it is. It may change or be unavailable at times.</p>
+<h2>Changes</h2>
+<p>If these terms change, the effective date above will change with them.</p>
+</div></div>
+</main>
+
+<footer><div class="wrap">Built for the Power Learn Project Africa Mini Hackathon, November 2026. General guidance only, not legal advice.</div></footer>
+
+<script>
+var P={
+nurse:{label:"Nurse or midwife",noun:"nurse or midwife",tasks:["Administering medication and monitoring patients","Wound care and infection control","Triage and emergency response","Maternal and child health care","Patient records and shift handover","Supervising or training junior staff"]},
+teacher:{label:"Teacher",noun:"teacher",tasks:["Planning lessons and schemes of work","Teaching a full class independently","Assessing and marking learner progress","Classroom management and learner welfare","Adapting teaching for different levels","Mentoring other teachers"]},
+engineer:{label:"Civil engineer",noun:"civil engineer",tasks:["Reading and producing technical drawings","Site supervision and quality control","Surveying and setting out","Estimating quantities and costs","Structural or materials calculations","Managing contractors and site safety"]},
+accountant:{label:"Accountant",noun:"accountant",tasks:["Bookkeeping and ledgers","Preparing financial statements","Payroll and tax filing","Budgeting and forecasting","Audit support and reconciliations","Using accounting software"]}
+};
+var LV=["Not done","Done occasionally","Done regularly","Done regularly and trained others"];
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e;}
+function lc(s){return s.charAt(0).toLowerCase()+s.slice(1);}
+function $(id){return document.getElementById(id);}
+
+var sel=$("profession");
+Object.keys(P).forEach(function(k){var o=el("option","",P[k].label);o.value=k;sel.appendChild(o);});
+function renderTasks(){
+  var box=$("tasks");box.textContent="";
+  P[sel.value].tasks.forEach(function(t,i){
+    var row=el("div","task");var lab=el("label","",t);lab.htmlFor="t"+i;
+    var s=el("select");s.id="t"+i;
+    LV.forEach(function(l,j){var o=el("option","",l);o.value=j;s.appendChild(o);});
+    row.appendChild(lab);row.appendChild(s);box.appendChild(row);
+  });
+}
+sel.addEventListener("change",renderTasks);renderTasks();
+
+$("go").addEventListener("click",function(){$("build").scrollIntoView({behavior:"smooth"});$("pname").focus({preventScroll:true});});
+
+$("f").addEventListener("submit",function(e){
+  e.preventDefault();
+  var p=P[sel.value],name=$("pname").value.trim(),yrs=parseInt($("years").value,10)||0,
+      wp=$("workplace").value.trim(),country=$("country").value.trim();
+  var rated=p.tasks.map(function(t,i){return {t:t,l:parseInt($("t"+i).value,10)};});
+  var reg=rated.filter(function(r){return r.l===2;}).map(function(r){return lc(r.t);});
+  var trained=rated.filter(function(r){return r.l===3;}).map(function(r){return lc(r.t);});
+  var build=rated.filter(function(r){return r.l<2;}).map(function(r){return lc(r.t);});
+  var have={employer:$("c-employer").checked,colleagues:$("c-colleagues").checked,school:$("c-school").checked,files:$("c-files").checked,id:$("c-id").checked};
+
+  var summary=name+" is a "+p.noun+" with "+yrs+" year"+(yrs===1?"":"s")+" of experience. Most recent workplace: "+wp+", "+country+".";
+  if(reg.length)summary+=" Regular hands-on practice in: "+reg.join("; ")+".";
+  if(trained.length)summary+=" Has also trained or supervised others in: "+trained.join("; ")+".";
+  if(!reg.length&&!trained.length)summary+=" No task has yet been rated as regular practice.";
+  if(build.length)summary+=" Still to build or confirm: "+build.join("; ")+".";
+
+  var out=$("out");out.textContent="";out.hidden=false;
+  out.appendChild(el("h2","","Your competency portfolio"));
+  out.appendChild(el("p","",summary));
+  var wrap=el("div","scroll"),tb=el("table"),hd=el("thead"),hr=el("tr");
+  ["Task","Experience","Level"].forEach(function(h){hr.appendChild(el("th","",h));});
+  hd.appendChild(hr);tb.appendChild(hd);
+  var body=el("tbody");
+  rated.forEach(function(r){
+    var tr=el("tr");tr.appendChild(el("td","",r.t));tr.appendChild(el("td","",LV[r.l]));
+    var td=el("td");for(var k=1;k<=3;k++){td.appendChild(el("span","seg"+(k<=r.l?" on":"")));}
+    tr.appendChild(td);body.appendChild(tr);
+  });
+  tb.appendChild(body);wrap.appendChild(tb);out.appendChild(wrap);
+  out.appendChild(el("p","note","This portfolio is a self-assessment. It becomes evidence only when it is backed by letters, signed statements or an assessment by a recognized authority."));
+
+  var items=[
+    {on:have.employer,y:["Ask your former employer for a signed letter","Use the draft letter below. Ask for your job title, dates of work and main duties, on headed paper if possible."],n:["Try to reach a former employer or supervisor","Look for them through professional groups, social media or former colleagues. Even one confirmation helps."]},
+    {on:have.colleagues,y:["Collect signed statements from two colleagues","Each statement should say how they know you, what work they saw you do and when, plus their position and contact details."],n:["Look for former colleagues","Search professional groups and social media for people who worked with you. Statements from them can stand in for missing records."]},
+    {on:have.school,y:["Request replacement certificates or transcripts","Write to the registrar of your school or university. Many institutions keep records and can send copies by email."],n:["Find out whether your school or professional body still holds your records","Search for the institution’s current contact details, or ask alumni who may know how records are handled now."]},
+    {on:have.files,y:["Put every remaining file in one folder","Include photos of certificates, payslips, work photos, badges and project documents. Back the folder up in two places."],n:["Check old phones, email, cloud backups and chats","Documents are often hiding in sent emails, messaging apps and photo backups."]},
+    {on:have.id,y:["Keep your ID or registration document with the portfolio","Authorities will usually ask for it to link your identity to your evidence."],n:["Ask the agency that registered you how to get a copy","A copy of your registration or ID document helps tie everything else to you."]}
+  ];
+  var start=[],next=[];
+  items.forEach(function(it){(it.on?start:next).push(it.on?it.y:it.n);});
+  next.push(["Ask the recognition authority what alternative evidence it accepts","Contact the credential recognition body in the country where you live and ask what it accepts from people who cannot produce documents. Rules differ by country and profession, so confirm before paying any fee."]);
+  next.push(["Ask whether a practical test or interview can replace missing paperwork","Some professions allow an assessment of your skills instead of documents."]);
+
+  out.appendChild(el("h2","","Your recovery plan"));
+  var ol=el("ol","plan");
+  start.forEach(function(x){var li=el("li","start");li.appendChild(el("span","k","Start here"));li.appendChild(el("h3","",x[0]));li.appendChild(el("p","",x[1]));ol.appendChild(li);});
+  next.forEach(function(x){var li=el("li");li.appendChild(el("span","k","Next"));li.appendChild(el("h3","",x[0]));li.appendChild(el("p","",x[1]));ol.appendChild(li);});
+  out.appendChild(ol);
+
+  out.appendChild(el("h2","","Draft letter requesting a reference"));
+  var letter="Dear Sir or Madam,\n\nI am writing to ask for a signed letter confirming my work as a "+p.noun+" at "+wp+" in "+country+". I lost my documents when I was forced to leave my home, and I am applying to have my skills recognised where I now live.\n\nPlease confirm, on headed paper if possible:\n- My full name: "+name+"\n- My job title\n- The dates I worked with you\n- The main duties I carried out\n\nPlease sign and date the letter, and include your position and contact details so that an authority can verify it.\n\nThank you for your help.\n\n"+name;
+  var ta=el("textarea");ta.id="letter";ta.value=letter;ta.setAttribute("aria-label","Draft letter");
+  out.appendChild(ta);
+  var row=el("div","row noprint");
+  var cp=el("button","btn","Copy letter");cp.type="button";
+  var st=el("span","hint","");st.setAttribute("role","status");
+  cp.addEventListener("click",function(){
+    var done=function(ok){st.textContent=ok?"Copied.":"Could not copy. Select the text and copy it manually.";};
+    try{
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(function(){done(true);},function(){ta.select();done(document.execCommand("copy"));});}
+      else{ta.select();done(document.execCommand("copy"));}
+    }catch(err){done(false);}
+  });
+  var pr=el("button","btn alt","Print or save as PDF");pr.type="button";
+  pr.addEventListener("click",function(){window.print();});
+  row.appendChild(cp);row.appendChild(pr);row.appendChild(st);out.appendChild(row);
+  out.scrollIntoView({behavior:"smooth"});
+});
+
+function route(){
+  var h=location.hash.slice(1);
+  var v=(h==="privacy"||h==="terms")?h:"home";
+  ["home","privacy","terms"].forEach(function(n){
+    $("view-"+n).hidden=(n!==v);
+    var a=$("n-"+n);if(n===v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");
+  });
+  document.title=v==="privacy"?"Privacy policy | Proof Without Paper":v==="terms"?"Terms and conditions | Proof Without Paper":"Proof Without Paper";
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);route();
+</script>
+</body>
+</html>
